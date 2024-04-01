@@ -43,9 +43,7 @@ jobs:
       run: |
         python3 insights/apply-tags.py --org-id ${{env.ORG_ID}} --snyk-token ${{env.SNYK_TOKEN}} --origin github
       env:
-        # GitHub token for authentication
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Snyk token for authentication
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         # Organization ID
-        ORG_ID: ${{ secrets.ORG_ID }}
+        ORG_ID: ${{ secrets.SNYK_ORG_ID }}
