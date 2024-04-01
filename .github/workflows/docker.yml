@@ -1,0 +1,23 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker login
+      env:
+        DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+      run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+    - name: Build the Docker image
+      run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag snykschmidtty/juice-shop:latest
+    - name: Docker Push
+      run: docker push snykschmidtty/juice-shop:latest
