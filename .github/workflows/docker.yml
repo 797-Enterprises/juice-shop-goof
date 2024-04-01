@@ -17,17 +17,12 @@ jobs:
 
         # The job consists of steps
         steps:
-        # This step checks out the repository
-        - uses: actions/checkout@v3
-        # This step logs into Docker using the Docker username and token stored in the repository's secrets
-        - name: Docker login
-            env:
+            - uses: actions/checkout@v3
+            - name: Docker login
+              env:
                 DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
-                DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
-            run: docker login -u ${{env.DOCKERHUB_USERNAME}} -p ${{env.DOCKERHUB_TOKEN}}
-        # This step builds the Docker image using the Dockerfile in the repository and tags it as "snykschmidtty/juice-shop:latest"
-        - name: Build the Docker image
-            run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag ${{env.DOCKERHUB_USERNAME}}/juice-shop:latest
-        # This step pushes the Docker image to Docker Hub
-        - name: Docker Push
-            run: docker push ${{env.DOCKERHUB_USERNAME}}/juice-shop:latest
+              run: docker login -u snykschmidtty -p ${{env.DOCKERHUB_TOKEN}}
+            - name: Build the Docker image
+              run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag snykschmidtty/juice-shop:latest
+            - name: Docker Push
+              run: docker push snykschmidtty/juice-shop:latest
